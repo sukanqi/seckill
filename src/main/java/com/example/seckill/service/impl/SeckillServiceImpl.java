@@ -52,8 +52,8 @@ public class SeckillServiceImpl implements SeckillService {
 
         // 2. User idempotency check: prevent duplicate orders using Redis SetNX
         String orderSetKey = ORDER_SET_PREFIX + productId;
-        Boolean added = stringRedisTemplate.opsForSet().add(orderSetKey, String.valueOf(userId));
-        if (Boolean.FALSE.equals(added) || added == null || added == 0) {
+        Long added = stringRedisTemplate.opsForSet().add(orderSetKey, String.valueOf(userId));
+        if (added == null || added == 0) {
             // User already placed an order for this product
             log.warn("Duplicate order attempt: userId={}, productId={}", userId, productId);
             String resultKey = RESULT_PREFIX + userId + ":" + productId;
