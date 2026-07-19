@@ -53,6 +53,12 @@
         AND stock_count > 0
     </update>
 
+    <update id="incrementStock">
+        UPDATE seckill_product
+        SET stock_count = stock_count + 1
+        WHERE product_id = #{productId,jdbcType=BIGINT}
+    </update>
+
     <insert id="insert" parameterType="com.example.seckill.entity.SeckillProduct">
         INSERT INTO seckill_product (product_id, title, image, original_price, seckill_price,
                                      stock_count, start_time, end_time, create_time)
@@ -61,5 +67,21 @@
                 #{stockCount,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP},
                 #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
     </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.example.seckill.entity.SeckillProduct">
+        UPDATE seckill_product
+        SET title = #{title,jdbcType=VARCHAR},
+            image = #{image,jdbcType=VARCHAR},
+            original_price = #{originalPrice,jdbcType=DECIMAL},
+            seckill_price = #{seckillPrice,jdbcType=DECIMAL},
+            stock_count = #{stockCount,jdbcType=INTEGER},
+            start_time = #{startTime,jdbcType=TIMESTAMP},
+            end_time = #{endTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM seckill_product WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
 
 </mapper>

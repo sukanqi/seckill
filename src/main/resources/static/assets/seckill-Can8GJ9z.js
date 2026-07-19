@@ -1,0 +1,1 @@
+import{E as s}from"./index-DpxGHNfc.js";const t=s.create({baseURL:"/api",timeout:1e4});function l(e){return t.post("/seckill/order",e)}function o(e,r){return t.get("/seckill/result",{params:{userId:e,productId:r}})}export{o as g,l as s};

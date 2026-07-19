@@ -46,4 +46,23 @@
         ORDER BY create_time DESC
     </select>
 
+    <select id="selectByStatusAndCreateTimeBefore" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM seckill_order
+        WHERE status = #{status,jdbcType=INTEGER}
+          AND create_time &lt; #{deadline,jdbcType=TIMESTAMP}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE seckill_order
+        SET status = #{status,jdbcType=INTEGER}
+        WHERE order_id = #{orderId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM seckill_order
+        ORDER BY create_time DESC
+    </select>
+
 </mapper>

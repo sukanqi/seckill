@@ -19,5 +19,11 @@ public interface SeckillProductMapper {
 
     int decrementStock(@Param("productId") Long productId);
 
+    int incrementStock(@Param("productId") Long productId);
+
     int insert(SeckillProduct seckillProduct);
+
+    int updateByPrimaryKey(SeckillProduct seckillProduct);
+
+    int deleteByPrimaryKey(@Param("id") Long id);
 }
