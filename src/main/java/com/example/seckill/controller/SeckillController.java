@@ -19,33 +19,38 @@ public class SeckillController {
     /**
      * Place a flash sale order
      * POST /api/seckill/order
+     * 优先从 JWT token 获取 userId，兼容旧版 body 传参
      */
     @PostMapping("/order")
     @SeckillRateLimit(permitsPerSecond = 100.0, timeoutMs = 0)
-    public SeckillResult placeOrder(@RequestBody SeckillRequest request) {
-        log.info("Received seckill order request: userId={}, productId={}",
-                request.getUserId(), request.getProductId());
+    public SeckillResult placeOrder(@RequestBody SeckillRequest request,
+                                    @RequestAttribute(value = "userId", required = false) Long jwtUserId) {
+        Long userId = jwtUserId != null ? jwtUserId : request.getUserId();
+        log.info("Received seckill order request: userId={}, productId={}", userId, request.getProductId());
 
-        if (request.getUserId() == null || request.getProductId() == null) {
+        if (userId == null || request.getProductId() == null) {
             return SeckillResult.fail("参数不完整");
         }
 
-        return seckillService.placeOrder(request.getUserId(), request.getProductId());
+        return seckillService.placeOrder(userId, request.getProductId());
     }
 
     /**
      * Poll for flash sale result
      * GET /api/seckill/result?userId=xxx&productId=xxx
+     * 优先从 JWT token 获取 userId
      */
     @GetMapping("/result")
-    public SeckillResult queryResult(@RequestParam("userId") Long userId,
-                                     @RequestParam("productId") Long productId) {
-        log.info("Query seckill result: userId={}, productId={}", userId, productId);
+    public SeckillResult queryResult(@RequestParam(value = "userId", required = false) Long userId,
+                                     @RequestParam("productId") Long productId,
+                                     @RequestAttribute(value = "userId", required = false) Long jwtUserId) {
+        Long uid = jwtUserId != null ? jwtUserId : userId;
+        log.info("Query seckill result: userId={}, productId={}", uid, productId);
 
-        if (userId == null || productId == null) {
+        if (uid == null || productId == null) {
             return SeckillResult.fail("参数不完整");
         }
 
-        return seckillService.queryResult(userId, productId);
+        return seckillService.queryResult(uid, productId);
     }
 }

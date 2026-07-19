@@ -84,4 +84,8 @@
         DELETE FROM seckill_product WHERE id = #{id,jdbcType=BIGINT}
     </delete>
 
+    <select id="countLowStock" resultType="int">
+        SELECT COUNT(*) FROM seckill_product WHERE stock_count &lt; #{threshold,jdbcType=INTEGER}
+    </select>
+
 </mapper>

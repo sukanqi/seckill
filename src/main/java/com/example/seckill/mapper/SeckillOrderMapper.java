@@ -23,4 +23,10 @@ public interface SeckillOrderMapper {
     int updateStatus(@Param("orderId") String orderId, @Param("status") Integer status);
 
     List<SeckillOrder> selectAll();
+
+    long countAll();
+
+    long countToday();
+
+    long countByStatus(@Param("status") Integer status);
 }

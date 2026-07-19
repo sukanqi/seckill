@@ -65,4 +65,17 @@
         ORDER BY create_time DESC
     </select>
 
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM seckill_order
+    </select>
+
+    <select id="countToday" resultType="long">
+        SELECT COUNT(*) FROM seckill_order
+        WHERE DATE(create_time) = CURDATE()
+    </select>
+
+    <select id="countByStatus" resultType="long">
+        SELECT COUNT(*) FROM seckill_order WHERE status = #{status,jdbcType=INTEGER}
+    </select>
+
 </mapper>

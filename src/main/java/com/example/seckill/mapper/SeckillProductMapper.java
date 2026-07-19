@@ -26,4 +26,6 @@ public interface SeckillProductMapper {
     int updateByPrimaryKey(SeckillProduct seckillProduct);
 
     int deleteByPrimaryKey(@Param("id") Long id);
+
+    int countLowStock(@Param("threshold") Integer threshold);
 }
